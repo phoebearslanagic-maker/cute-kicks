@@ -123,7 +123,7 @@ body {
 }
 
 .brand {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--accent);
   margin: 0 0 12px;
@@ -178,10 +178,12 @@ body {
 }
 
 .log-button-wrap {
-  margin-top: auto;
+  /* Centre the button in the space left under the header — comfortably
+     reachable, without hugging the tab bar. */
+  margin: auto 0;
   display: flex;
   justify-content: center;
-  padding: 16px 0 10px;
+  padding: 16px 0;
 }
 
 .log-button {
