@@ -1,4 +1,4 @@
-# Kick
+# Cute Kicks
 
 A single-user, offline-first PWA for tracking fetal movements during pregnancy,
 used on an iPhone via Safari and added to the home screen.

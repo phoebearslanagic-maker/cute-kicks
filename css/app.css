@@ -1,26 +1,27 @@
-/* Kick — foundation styles. Calm, flat, single teal accent, dark mode. */
+/* Cute Kicks — foundation styles. Calm, flat, soft blush & cream palette,
+   warm plum dark mode, single accent. */
 
 :root {
-  --accent: #0f766e;
+  --accent: #b3506d;
   --accent-contrast: #ffffff;
-  --bg: #fafaf9;
-  --surface: #ffffff;
-  --text: #1c1917;
-  --muted: #71706b;
-  --border: #e7e5e4;
+  --bg: #fbf6f3;
+  --surface: #fffdfc;
+  --text: #33272b;
+  --muted: #7d6a70;
+  --border: #efe0dd;
   --danger: #b91c1c;
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --accent: #2dd4bf;
-    --accent-contrast: #04211d;
-    --bg: #131312;
-    --surface: #1e1d1b;
-    --text: #f1efec;
-    --muted: #a5a29b;
-    --border: #38362f;
+    --accent: #e798ad;
+    --accent-contrast: #33121d;
+    --bg: #1a1417;
+    --surface: #251c20;
+    --text: #f4ecee;
+    --muted: #b0a0a6;
+    --border: #41343a;
     --danger: #f87171;
   }
 }
@@ -76,7 +77,7 @@ h2 {
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 16px;
   margin: 12px 0;
 }
@@ -87,7 +88,7 @@ button {
   background: var(--surface);
   color: var(--text);
   font: inherit;
-  border-radius: 10px;
+  border-radius: 12px;
   min-height: 44px;
   padding: 10px 16px;
   touch-action: manipulation;
@@ -120,7 +121,7 @@ pre.out {
   word-break: break-word;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px;
   min-height: 1.5em;
   margin: 12px 0 0;

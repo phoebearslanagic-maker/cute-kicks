@@ -68,11 +68,11 @@ async function shareOrDownload(filename, type, text) {
 
 export async function exportJSON() {
   const text = JSON.stringify(await buildExport(), null, 2);
-  return shareOrDownload('kick-' + todayLocalDate() + '.json', 'application/json', text);
+  return shareOrDownload('cute-kicks-' + todayLocalDate() + '.json', 'application/json', text);
 }
 
 export async function exportCSV() {
-  return shareOrDownload('kick-' + todayLocalDate() + '.csv', 'text/csv', await buildCSV());
+  return shareOrDownload('cute-kicks-' + todayLocalDate() + '.csv', 'text/csv', await buildCSV());
 }
 
 // Validate an export payload without writing anything. Throws with a
