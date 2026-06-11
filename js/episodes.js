@@ -4,7 +4,7 @@
 // movement × attention; "was the baby active in this window" is far more
 // robust to how attentive the user was.
 
-import { epoch } from './time.js?v=1781201788';
+import { epoch } from './time.js?v=1781203200';
 
 // events must be sorted ascending (store.getEvents() guarantees this).
 // Returns [{ start, end, events }] with start/end as the recorded timestamps.

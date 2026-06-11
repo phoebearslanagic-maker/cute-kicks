@@ -1,13 +1,13 @@
 // App shell: bottom tab bar navigation between screens, service worker.
 
-import * as store from './store.js?v=1781201788';
-import * as exporter from './export.js?v=1781201788';
-import * as time from './time.js?v=1781201788';
-import * as episodes from './episodes.js?v=1781201788';
-import { initLog, refreshLog } from './log.js?v=1781201788';
-import { renderHistory } from './history.js?v=1781201788';
-import { renderPatterns } from './patterns.js?v=1781201788';
-import { initSettings, refreshSettings, runSelfTest } from './settings.js?v=1781201788';
+import * as store from './store.js?v=1781203200';
+import * as exporter from './export.js?v=1781203200';
+import * as time from './time.js?v=1781203200';
+import * as episodes from './episodes.js?v=1781203200';
+import { initLog, refreshLog } from './log.js?v=1781203200';
+import { renderHistory } from './history.js?v=1781203200';
+import { renderPatterns } from './patterns.js?v=1781203200';
+import { initSettings, refreshSettings, runSelfTest } from './settings.js?v=1781203200';
 
 function showScreen(name) {
   for (const screen of document.querySelectorAll('.screen')) {
