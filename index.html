@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#b3506d">
   <title>Cute Kicks</title>
-  <link rel="stylesheet" href="css/app.css?v=1781198427">
+  <link rel="stylesheet" href="css/app.css?v=1781199129">
 </head>
 <body>
   <main class="app">
@@ -35,13 +35,45 @@
       </div>
     </section>
 
-    <!-- Patterns (placeholder until build step 4) -->
+    <!-- Patterns -->
     <section class="screen" id="screen-patterns">
       <h2 class="screen-title">Patterns</h2>
-      <div class="card">
-        <p class="muted">Your daily rhythm view is coming in build step 4. Keep logging —
-        everything you record now will appear here, and after a couple of weeks your
-        baby's own pattern should be visible at a glance.</p>
+      <p class="muted small">These views describe your own logged data, nothing more.
+      An empty patch can simply mean you were busy or asleep.</p>
+
+      <div class="card" id="patterns-empty" hidden>
+        <p class="muted">Nothing here yet — once you start logging, your pattern builds
+        up day by day. After a couple of weeks the daily rhythm shows at a glance.</p>
+      </div>
+
+      <div id="patterns-views" hidden>
+        <div class="card">
+          <h2>Last 14 days</h2>
+          <p class="muted small">Each row is a day, left to right is midnight to
+          midnight. A pink block means movement was logged in that half hour. The
+          lighter band is your waking hours; faded areas are before you started
+          logging, or still to come today.</p>
+          <div id="strips"></div>
+        </div>
+
+        <div class="card">
+          <h2>Your typical day</h2>
+          <p class="muted small">How often each half hour had logged activity across
+          the last 14 days — taller means more of those days.</p>
+          <div id="profile"></div>
+        </div>
+
+        <div class="card">
+          <h2>Episodes per day</h2>
+          <p class="muted small">Each dot is a day's count of activity episodes; the
+          line is the 7-day median. Markers show weeks of pregnancy.</p>
+          <div id="trend"></div>
+        </div>
+
+        <div class="card">
+          <h2>Tag notes</h2>
+          <div id="tag-notes"></div>
+        </div>
       </div>
       <footer class="safety">This app shows your own data so you can know your baby's
       pattern. If you think your baby's movements have slowed, stopped or changed,
@@ -66,6 +98,20 @@
         <p class="muted small">Used to show your week of pregnancy. Like everything
         here, it stays on this device.</p>
         <p><input type="date" id="set-duedate"> <span id="duedate-saved" class="muted small"></span></p>
+      </div>
+
+      <div class="card">
+        <h2>Your rhythm</h2>
+        <div class="edit-grid">
+          <label>Awake from<input type="time" id="set-wake-start"></label>
+          <label>Until<input type="time" id="set-wake-end"></label>
+        </div>
+        <p class="muted small">Shown as the daytime band on the Patterns screen.</p>
+        <div class="edit-grid">
+          <label>Episode gap (minutes)<input type="number" id="set-gap" min="2" max="120"></label>
+        </div>
+        <p class="muted small">Movements logged within this many minutes of each other
+        count as one episode of activity. Best left at 10 unless you have a reason.</p>
       </div>
 
       <div class="card">
@@ -120,6 +166,6 @@
       <span class="ticon" aria-hidden="true">⚙️</span>Settings</button>
   </nav>
 
-  <script type="module" src="js/app.js?v=1781198427"></script>
+  <script type="module" src="js/app.js?v=1781199129"></script>
 </body>
 </html>

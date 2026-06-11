@@ -2,10 +2,10 @@
 // restore, health check, delete-all. Waking hours, tag management and the
 // episode-gap control arrive with the Patterns work.
 
-import * as store from './store.js?v=1781198427';
-import * as exporter from './export.js?v=1781198427';
-import * as time from './time.js?v=1781198427';
-import { refreshLog } from './log.js?v=1781198427';
+import * as store from './store.js?v=1781199129';
+import * as exporter from './export.js?v=1781199129';
+import * as time from './time.js?v=1781199129';
+import { refreshLog } from './log.js?v=1781199129';
 
 const $ = (id) => document.getElementById(id);
 
@@ -18,6 +18,28 @@ const IO_MESSAGES = {
 export function initSettings() {
   store.getSettings().then((s) => {
     if (s.dueDate) $('set-duedate').value = s.dueDate;
+    $('set-wake-start').value = s.wakingHours.start;
+    $('set-wake-end').value = s.wakingHours.end;
+    $('set-gap').value = s.episodeGapMinutes;
+  });
+
+  const saveWaking = async () => {
+    const start = $('set-wake-start').value;
+    const end = $('set-wake-end').value;
+    if (!start || !end) return;
+    await store.saveSettings({ wakingHours: { start, end } });
+  };
+  $('set-wake-start').addEventListener('change', saveWaking);
+  $('set-wake-end').addEventListener('change', saveWaking);
+
+  $('set-gap').addEventListener('change', async () => {
+    const gap = parseInt($('set-gap').value, 10);
+    if (!Number.isInteger(gap) || gap < 2 || gap > 120) {
+      $('set-gap').value = (await store.getSettings()).episodeGapMinutes;
+      return;
+    }
+    await store.saveSettings({ episodeGapMinutes: gap });
+    refreshLog();
   });
 
   $('set-duedate').addEventListener('change', async () => {

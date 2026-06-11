@@ -3,8 +3,8 @@
 // Raw events are the source of truth and are stored as logged; everything
 // else (episodes, daily totals, patterns) is derived at render time.
 
-import { idb } from './db.js?v=1781198427';
-import { nowLocalISO, epoch } from './time.js?v=1781198427';
+import { idb } from './db.js?v=1781199129';
+import { nowLocalISO, epoch } from './time.js?v=1781199129';
 
 export const SCHEMA_VERSION = 'kick-tracker/1.0';
 
@@ -22,10 +22,18 @@ export async function getSettings() {
   return { ...structuredClone(DEFAULT_SETTINGS), ...(stored || {}) };
 }
 
-export async function saveSettings(patch) {
-  const next = { ...(await getSettings()), ...patch };
-  await idb.put('settings', next, 'settings');
-  return next;
+// Saves are serialised: two quick edits must not race read-modify-write,
+// or the slower one overwrites the faster with stale data.
+let settingsQueue = Promise.resolve();
+
+export function saveSettings(patch) {
+  const run = settingsQueue.then(async () => {
+    const next = { ...(await getSettings()), ...patch };
+    await idb.put('settings', next, 'settings');
+    return next;
+  });
+  settingsQueue = run.catch(() => {});
+  return run;
 }
 
 export async function addEvent({ count = 1, tags = [], t = nowLocalISO() } = {}) {
