@@ -8,58 +8,120 @@
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-  <main class="screen">
-    <header>
-      <h1>Cute Kicks 🤰</h1>
-      <p class="tagline">Get to know your baby's own pattern of movement.</p>
-      <p class="muted small">Early version — the proper one-tap logging screen arrives in
-      the next build step. Anything you log below is saved for real on this device.</p>
-    </header>
+  <main class="app">
 
-    <section class="card">
-      <h2>At a glance</h2>
-      <p id="status" class="num">Opening…</p>
-    </section>
+    <!-- Log (default screen) -->
+    <section class="screen active" id="screen-log">
+      <p class="brand">Cute Kicks 🤰</p>
+      <header class="log-header">
+        <p class="log-week num" id="log-week"></p>
+        <p class="log-today muted num" id="log-today"></p>
+        <p class="muted small" id="log-duedate-hint" hidden>Set your due date in Settings
+        to see your week of pregnancy here.</p>
+      </header>
 
-    <section class="card">
-      <h2>💗 Log your baby's movements</h2>
-      <div class="row">
-        <button id="add-one" class="primary">Log one movement</button>
-        <button id="add-flurry">Log a flurry of 5</button>
-        <button id="delete-last">Remove last entry</button>
+      <div class="log-feedback">
+        <p id="log-stamp" class="num"></p>
+        <button id="log-undo" type="button" hidden>Undo</button>
       </div>
-      <pre id="log-out" class="out"></pre>
-    </section>
+      <div id="tag-chips" class="chips" hidden></div>
 
-    <section class="card">
-      <h2>Back up &amp; restore</h2>
-      <p class="muted small">Your data lives only on this device, so saving a backup now
-      and then is the safe way to keep it.</p>
-      <div class="row">
-        <button id="export-json" class="primary">Save a backup</button>
-        <button id="export-csv">Spreadsheet copy (CSV)</button>
-        <button id="import-btn">Restore a backup…</button>
-        <input id="import-file" type="file" accept=".json,application/json" hidden>
+      <div class="log-button-wrap">
+        <button id="log-button" class="log-button" type="button"
+                aria-label="Log a movement. Press and hold for a flurry.">
+          <span id="log-button-count" class="log-count num" hidden></span>
+          <span id="log-button-hint" class="log-hint">Tap to log<small>hold for a flurry</small></span>
+        </button>
       </div>
-      <pre id="io-out" class="out"></pre>
     </section>
 
-    <section class="card">
-      <h2>App health check</h2>
-      <p class="muted small">Quickly checks the app's plumbing on this device: movements
-      save correctly, times are recorded properly (even across the October clock change),
-      and backups restore exactly.</p>
-      <button id="selftest">Check everything works</button>
-      <pre id="selftest-out" class="out"></pre>
+    <!-- Patterns (placeholder until build step 4) -->
+    <section class="screen" id="screen-patterns">
+      <h2 class="screen-title">Patterns</h2>
+      <div class="card">
+        <p class="muted">Your daily rhythm view is coming in build step 4. Keep logging —
+        everything you record now will appear here, and after a couple of weeks your
+        baby's own pattern should be visible at a glance.</p>
+      </div>
+      <footer class="safety">This app shows your own data so you can know your baby's
+      pattern. If you think your baby's movements have slowed, stopped or changed,
+      contact your midwife or maternity unit straight away. Don't wait, and don't rely
+      on this app.</footer>
     </section>
 
-    <section class="card">
-      <h2>Delete everything</h2>
-      <p class="muted small">Removes every logged movement and all settings from this
-      device. Save a backup first, unless you want a completely fresh start.</p>
-      <button id="clear-all" class="danger">Delete all my data</button>
+    <!-- History (placeholder until build step 3) -->
+    <section class="screen" id="screen-history">
+      <h2 class="screen-title">History</h2>
+      <div class="card">
+        <p class="muted">The full list of your logged movements — with editing — arrives
+        in build step 3, the very next update. Everything you log is already being
+        saved.</p>
+      </div>
     </section>
+
+    <!-- Settings (interim version) -->
+    <section class="screen" id="screen-settings">
+      <h2 class="screen-title">Settings</h2>
+
+      <div class="card">
+        <h2>Your due date</h2>
+        <p class="muted small">Used to show your week of pregnancy. Like everything
+        here, it stays on this device.</p>
+        <p><input type="date" id="set-duedate"> <span id="duedate-saved" class="muted small"></span></p>
+      </div>
+
+      <div class="card">
+        <h2>Back up &amp; restore</h2>
+        <p class="muted small">Your data lives only on this device, so saving a backup
+        now and then is the safe way to keep it.</p>
+        <div class="row">
+          <button id="export-json" class="primary" type="button">Save a backup</button>
+          <button id="export-csv" type="button">Spreadsheet copy (CSV)</button>
+          <button id="import-btn" type="button">Restore a backup…</button>
+          <input id="import-file" type="file" accept=".json,application/json" hidden>
+        </div>
+        <pre id="io-out" class="out"></pre>
+      </div>
+
+      <div class="card">
+        <h2>App health check</h2>
+        <p class="muted small">Quickly checks the app's plumbing on this device:
+        movements save correctly, times are recorded properly (even across the October
+        clock change), and backups restore exactly.</p>
+        <button id="selftest" type="button">Check everything works</button>
+        <pre id="selftest-out" class="out"></pre>
+      </div>
+
+      <div class="card">
+        <h2>Delete everything</h2>
+        <p class="muted small">Removes every logged movement and all settings from this
+        device. Save a backup first, unless you want a completely fresh start.</p>
+        <button id="clear-all" class="danger" type="button">Delete all my data</button>
+      </div>
+
+      <div class="card">
+        <h2>About Cute Kicks</h2>
+        <p class="muted small">Cute Kicks shows your own data so you can get to know
+        your baby's individual pattern of movement. It never scores, judges or
+        predicts. If you think your baby's movements have slowed, stopped or changed,
+        contact your midwife or maternity unit straight away — don't wait, and don't
+        rely on this app.</p>
+      </div>
+    </section>
+
   </main>
-  <script type="module" src="js/testpanel.js"></script>
+
+  <nav class="tabbar" role="tablist" aria-label="Main">
+    <button class="tab active" data-screen="log" role="tab" aria-selected="true" type="button">
+      <span class="ticon" aria-hidden="true">💗</span>Log</button>
+    <button class="tab" data-screen="patterns" role="tab" aria-selected="false" type="button">
+      <span class="ticon" aria-hidden="true">🌸</span>Patterns</button>
+    <button class="tab" data-screen="history" role="tab" aria-selected="false" type="button">
+      <span class="ticon" aria-hidden="true">📖</span>History</button>
+    <button class="tab" data-screen="settings" role="tab" aria-selected="false" type="button">
+      <span class="ticon" aria-hidden="true">⚙️</span>Settings</button>
+  </nav>
+
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

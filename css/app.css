@@ -10,6 +10,7 @@
   --muted: #7d6a70;
   --border: #efe0dd;
   --danger: #b91c1c;
+  --tabbar-h: 64px;
   color-scheme: light dark;
 }
 
@@ -41,16 +42,198 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 17px;
   line-height: 1.45;
-  /* Keep content clear of the iPhone notch and home indicator. */
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-           env(safe-area-inset-bottom) env(safe-area-inset-left);
+  /* Keep content clear of the iPhone notch; the tab bar handles the bottom. */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
 }
 
-.screen {
+.app {
   max-width: 600px;
   margin: 0 auto;
-  padding: 16px 16px 32px;
+  padding: 12px 16px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 16px);
 }
+
+/* ---- Screens & navigation ---- */
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.screen-title {
+  font-size: 24px;
+  color: var(--text);
+  margin: 8px 0 12px;
+}
+
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 6px max(8px, env(safe-area-inset-right))
+           calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+}
+
+.tab {
+  flex: 1;
+  max-width: 140px;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: none;
+  background: none;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.tab .ticon {
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.tab.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ---- Log screen ---- */
+
+#screen-log.active {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--tabbar-h) - env(safe-area-inset-bottom) - 40px);
+  min-height: calc(100dvh - var(--tabbar-h) - env(safe-area-inset-bottom) - 40px);
+}
+
+.brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+
+.log-week {
+  font-size: 23px;
+  font-weight: 650;
+  margin: 0 0 2px;
+}
+
+.log-today {
+  font-size: 16px;
+  margin: 0;
+}
+
+.log-feedback {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#log-stamp {
+  margin: 0;
+  color: var(--muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  min-height: 44px;
+  margin: 4px 0;
+}
+
+.chip {
+  border-radius: 999px;
+  min-height: 44px;
+  padding: 8px 16px;
+  font-size: 15px;
+}
+
+.chip.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+}
+
+.log-button-wrap {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 10px;
+}
+
+.log-button {
+  width: min(62vw, 300px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+  font-weight: 650;
+  box-shadow: 0 8px 28px rgba(179, 80, 109, 0.28);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.log-button.holding {
+  transform: scale(0.95);
+}
+
+.log-hint small {
+  display: block;
+  font-size: 15px;
+  font-weight: 450;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.log-count {
+  font-size: 84px;
+  line-height: 1;
+}
+
+/* ---- Safety footer (Patterns) ---- */
+
+.safety {
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 16px 0;
+}
+
+/* ---- Shared components ---- */
 
 h1 {
   font-size: 30px;
@@ -115,13 +298,21 @@ button.danger {
   color: var(--danger);
 }
 
+input[type="date"] {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-height: 44px;
+  padding: 8px 12px;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-
-/* ---- Step-1 test panel only (removed when the Log screen lands) ---- */
 
 pre.out {
   font-size: 13px;

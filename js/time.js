@@ -41,6 +41,12 @@ export function epoch(t) {
   return Date.parse(t);
 }
 
+// "17:05" — the wall-clock time recorded at logging.
+export function fmtHM(t) {
+  const p = localParts(t);
+  return String(p.hour).padStart(2, '0') + ':' + String(p.minute).padStart(2, '0');
+}
+
 export function todayLocalDate(d = new Date()) {
   const pad = (n) => String(n).padStart(2, '0');
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());

@@ -26,7 +26,7 @@ Local development: `python3 -m http.server 8000` in this folder, then open
 ## Build progress
 
 1. [x] Data layer (IndexedDB, event CRUD, settings) + export/import
-2. [ ] Log screen (tap, hold-for-flurry, tags, undo)
+2. [x] Log screen (tap, hold-for-flurry, tags, undo)
 3. [ ] History
 4. [ ] Episode derivation + Patterns views
 5. [ ] Service worker, manifest, icons, install polish
