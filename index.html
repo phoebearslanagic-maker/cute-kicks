@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <title>Kick</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <main class="screen">
+    <header>
+      <h1>Kick</h1>
+      <p class="muted small">Build step 1 of 7 — data layer. This temporary panel exercises
+      storage, export and import; the Log screen replaces it in step 2.</p>
+    </header>
+
+    <section class="card">
+      <h2>Stored data</h2>
+      <p id="status" class="num">Opening database…</p>
+    </section>
+
+    <section class="card">
+      <h2>Log test events</h2>
+      <div class="row">
+        <button id="add-one" class="primary">Log 1 movement</button>
+        <button id="add-flurry">Log a flurry (5)</button>
+        <button id="delete-last">Delete most recent</button>
+      </div>
+      <pre id="log-out" class="out"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Export / import</h2>
+      <div class="row">
+        <button id="export-json" class="primary">Export JSON</button>
+        <button id="export-csv">Export CSV</button>
+        <button id="import-btn">Import JSON…</button>
+        <input id="import-file" type="file" accept=".json,application/json" hidden>
+      </div>
+      <pre id="io-out" class="out"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Self-test</h2>
+      <p class="muted small">Runs the data layer end to end on this device: timestamp
+      format, clock-change handling, gestational-week maths, event round-trip,
+      export/import round-trip.</p>
+      <button id="selftest">Run self-test</button>
+      <pre id="selftest-out" class="out"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Danger zone</h2>
+      <button id="clear-all" class="danger">Clear all data</button>
+    </section>
+  </main>
+  <script type="module" src="js/testpanel.js"></script>
+</body>
+</html>
