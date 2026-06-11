@@ -5,6 +5,7 @@ import * as exporter from './export.js';
 import * as time from './time.js';
 import * as episodes from './episodes.js';
 import { initLog, refreshLog } from './log.js';
+import { renderHistory } from './history.js';
 import { initSettings, runSelfTest } from './settings.js';
 
 function showScreen(name) {
@@ -17,6 +18,7 @@ function showScreen(name) {
     tab.setAttribute('aria-selected', String(active));
   }
   if (name === 'log') refreshLog();
+  if (name === 'history') renderHistory();
 }
 
 for (const tab of document.querySelectorAll('.tab')) {

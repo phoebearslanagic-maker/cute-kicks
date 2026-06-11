@@ -123,10 +123,10 @@ body {
 }
 
 .brand {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
   color: var(--accent);
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 
 .log-week {
@@ -221,6 +221,75 @@ body {
   line-height: 1;
 }
 
+/* ---- History ---- */
+
+.day-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 20px 2px 8px;
+}
+
+.day-head h3 {
+  font-size: 17px;
+  margin: 0;
+}
+
+.hist-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: left;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 10px 14px;
+  margin: 6px 0;
+  min-height: 52px;
+}
+
+.hist-time {
+  font-weight: 650;
+  min-width: 52px;
+}
+
+.hist-tags {
+  flex: 1;
+  text-align: right;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.hist-edit {
+  background: var(--surface);
+  border: 1.5px solid var(--accent);
+  border-radius: 16px;
+  padding: 14px;
+  margin: 6px 0;
+}
+
+.edit-grid {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.edit-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.chips.left {
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
 /* ---- Safety footer (Patterns) ---- */
 
 .safety {
@@ -298,14 +367,21 @@ button.danger {
   color: var(--danger);
 }
 
-input[type="date"] {
+input[type="date"],
+input[type="time"],
+input[type="number"] {
   font: inherit;
+  font-variant-numeric: tabular-nums;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   min-height: 44px;
   padding: 8px 12px;
+}
+
+input[type="number"] {
+  width: 110px;
 }
 
 .row {

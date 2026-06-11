@@ -33,6 +33,7 @@ export function localParts(t) {
     hour: +m[4], minute: +m[5], second: +m[6],
     date: m[1] + '-' + m[2] + '-' + m[3],
     minutesOfDay: +m[4] * 60 + +m[5],
+    offset: m[7],
   };
 }
 
