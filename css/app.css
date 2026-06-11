@@ -53,13 +53,21 @@ body {
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 30px;
   margin: 8px 0 4px;
 }
 
 h2 {
   font-size: 17px;
   margin: 0 0 12px;
+  color: var(--accent);
+}
+
+.tagline {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 0 0 8px;
 }
 
 .muted {
@@ -77,9 +85,10 @@ h2 {
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 16px;
   margin: 12px 0;
+  box-shadow: 0 1px 4px rgba(179, 80, 109, 0.07);
 }
 
 button {
@@ -88,9 +97,9 @@ button {
   background: var(--surface);
   color: var(--text);
   font: inherit;
-  border-radius: 12px;
+  border-radius: 999px;
   min-height: 44px;
-  padding: 10px 16px;
+  padding: 10px 18px;
   touch-action: manipulation;
   cursor: pointer;
 }

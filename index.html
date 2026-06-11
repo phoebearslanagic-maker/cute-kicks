@@ -10,49 +10,54 @@
 <body>
   <main class="screen">
     <header>
-      <h1>Cute Kicks</h1>
-      <p class="muted small">Build step 1 of 7 — data layer. This temporary panel exercises
-      storage, export and import; the Log screen replaces it in step 2.</p>
+      <h1>Cute Kicks 👣</h1>
+      <p class="tagline">Get to know your baby's own pattern of movement.</p>
+      <p class="muted small">Early version — the proper one-tap logging screen arrives in
+      the next build step. Anything you log below is saved for real on this device.</p>
     </header>
 
     <section class="card">
-      <h2>Stored data</h2>
-      <p id="status" class="num">Opening database…</p>
+      <h2>At a glance</h2>
+      <p id="status" class="num">Opening…</p>
     </section>
 
     <section class="card">
-      <h2>Log test events</h2>
+      <h2>💗 Log your baby's movements</h2>
       <div class="row">
-        <button id="add-one" class="primary">Log 1 movement</button>
-        <button id="add-flurry">Log a flurry (5)</button>
-        <button id="delete-last">Delete most recent</button>
+        <button id="add-one" class="primary">Log one movement</button>
+        <button id="add-flurry">Log a flurry of 5</button>
+        <button id="delete-last">Remove last entry</button>
       </div>
       <pre id="log-out" class="out"></pre>
     </section>
 
     <section class="card">
-      <h2>Export / import</h2>
+      <h2>Back up &amp; restore</h2>
+      <p class="muted small">Your data lives only on this device, so saving a backup now
+      and then is the safe way to keep it.</p>
       <div class="row">
-        <button id="export-json" class="primary">Export JSON</button>
-        <button id="export-csv">Export CSV</button>
-        <button id="import-btn">Import JSON…</button>
+        <button id="export-json" class="primary">Save a backup</button>
+        <button id="export-csv">Spreadsheet copy (CSV)</button>
+        <button id="import-btn">Restore a backup…</button>
         <input id="import-file" type="file" accept=".json,application/json" hidden>
       </div>
       <pre id="io-out" class="out"></pre>
     </section>
 
     <section class="card">
-      <h2>Self-test</h2>
-      <p class="muted small">Runs the data layer end to end on this device: timestamp
-      format, clock-change handling, gestational-week maths, event round-trip,
-      export/import round-trip.</p>
-      <button id="selftest">Run self-test</button>
+      <h2>App health check</h2>
+      <p class="muted small">Quickly checks the app's plumbing on this device: movements
+      save correctly, times are recorded properly (even across the October clock change),
+      and backups restore exactly.</p>
+      <button id="selftest">Check everything works</button>
       <pre id="selftest-out" class="out"></pre>
     </section>
 
     <section class="card">
-      <h2>Danger zone</h2>
-      <button id="clear-all" class="danger">Clear all data</button>
+      <h2>Delete everything</h2>
+      <p class="muted small">Removes every logged movement and all settings from this
+      device. Save a backup first, unless you want a completely fresh start.</p>
+      <button id="clear-all" class="danger">Delete all my data</button>
     </section>
   </main>
   <script type="module" src="js/testpanel.js"></script>

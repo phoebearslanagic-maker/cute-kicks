@@ -7,6 +7,12 @@ import * as time from './time.js';
 
 const $ = (id) => document.getElementById(id);
 
+// "17:05" from a stored timestamp's recorded wall-clock time.
+const fmtTime = (iso) => {
+  const p = time.localParts(iso);
+  return String(p.hour).padStart(2, '0') + ':' + String(p.minute).padStart(2, '0');
+};
+
 async function refresh() {
   try {
     const [settings, events] = await Promise.all([store.getSettings(), store.getEvents()]);
@@ -16,24 +22,24 @@ async function refresh() {
       .filter((e) => time.localParts(e.t).date === today)
       .reduce((n, e) => n + e.count, 0);
     $('status').textContent =
-      `${events.length} events, ${taps} movements total · ${todayTaps} today\n` +
-      `Settings: gap ${settings.episodeGapMinutes} min · ` +
-      `waking ${settings.wakingHours.start}–${settings.wakingHours.end} · ` +
-      `${settings.tags.length} tags · due date ${settings.dueDate || 'not set'}`;
+      `${taps} movement${taps === 1 ? '' : 's'} logged so far ` +
+      `(${events.length} entr${events.length === 1 ? 'y' : 'ies'}) · ${todayTaps} today\n` +
+      `Waking hours ${settings.wakingHours.start}–${settings.wakingHours.end} · ` +
+      `due date ${settings.dueDate || 'not set yet'}`;
   } catch (err) {
-    $('status').textContent = 'Database error: ' + err.message;
+    $('status').textContent = 'Something went wrong opening your data: ' + err.message;
   }
 }
 
 $('add-one').addEventListener('click', async () => {
   const e = await store.addEvent({ count: 1 });
-  $('log-out').textContent = 'Logged 1 at ' + e.t;
+  $('log-out').textContent = 'Logged 1 movement at ' + fmtTime(e.t);
   refresh();
 });
 
 $('add-flurry').addEventListener('click', async () => {
-  const e = await store.addEvent({ count: 5, tags: ['after_eating'] });
-  $('log-out').textContent = 'Logged flurry of 5 (tag: after_eating) at ' + e.t;
+  const e = await store.addEvent({ count: 5 });
+  $('log-out').textContent = 'Logged a flurry of 5 at ' + fmtTime(e.t);
   refresh();
 });
 
@@ -41,28 +47,35 @@ $('delete-last').addEventListener('click', async () => {
   const events = await store.getEvents();
   const last = events[events.length - 1];
   if (!last) {
-    $('log-out').textContent = 'Nothing to delete.';
+    $('log-out').textContent = 'Nothing to remove yet.';
     return;
   }
-  if (!confirm(`Delete the event at ${last.t} (count ${last.count})?`)) return;
+  const what = last.count === 1 ? '1 movement' : `${last.count} movements`;
+  if (!confirm(`Remove the entry from ${fmtTime(last.t)} (${what})?`)) return;
   await store.deleteEvent(last.id);
-  $('log-out').textContent = 'Deleted event at ' + last.t;
+  $('log-out').textContent = `Removed the entry from ${fmtTime(last.t)}.`;
   refresh();
 });
 
+const IO_MESSAGES = {
+  shared: 'Backup sent to the share sheet.',
+  downloaded: 'Backup downloaded.',
+  cancelled: 'Cancelled — nothing was saved.',
+};
+
 $('export-json').addEventListener('click', async () => {
   try {
-    $('io-out').textContent = 'JSON export: ' + (await exporter.exportJSON());
+    $('io-out').textContent = IO_MESSAGES[await exporter.exportJSON()];
   } catch (err) {
-    $('io-out').textContent = 'Export failed: ' + err.message;
+    $('io-out').textContent = 'Backup failed: ' + err.message;
   }
 });
 
 $('export-csv').addEventListener('click', async () => {
   try {
-    $('io-out').textContent = 'CSV export: ' + (await exporter.exportCSV());
+    $('io-out').textContent = IO_MESSAGES[await exporter.exportCSV()];
   } catch (err) {
-    $('io-out').textContent = 'Export failed: ' + err.message;
+    $('io-out').textContent = 'Backup failed: ' + err.message;
   }
 });
 
@@ -75,23 +88,23 @@ $('import-file').addEventListener('change', async () => {
   try {
     const text = await file.text();
     const { events } = exporter.parseImport(text);
-    if (!confirm(`Replace everything on this device with ${events.length} imported events?`)) {
-      $('io-out').textContent = 'Import cancelled.';
+    if (!confirm(`Replace everything on this device with the backup's ${events.length} entries?`)) {
+      $('io-out').textContent = 'Restore cancelled — nothing was changed.';
       return;
     }
     const result = await exporter.importData(text);
-    $('io-out').textContent = `Imported ${result.events} events.`;
+    $('io-out').textContent = `Restored ${result.events} entries from the backup.`;
   } catch (err) {
-    $('io-out').textContent = 'Import failed: ' + err.message;
+    $('io-out').textContent = 'Restore failed: ' + err.message;
   }
   refresh();
 });
 
 $('clear-all').addEventListener('click', async () => {
-  if (!confirm('Delete ALL events and settings from this device?')) return;
-  if (!confirm('Are you sure? This cannot be undone unless you exported first.')) return;
+  if (!confirm('Delete ALL logged movements and settings from this device?')) return;
+  if (!confirm('Are you sure? This cannot be undone unless you saved a backup first.')) return;
   await store.clearAllData();
-  $('io-out').textContent = 'All data cleared.';
+  $('io-out').textContent = 'All data deleted.';
   refresh();
 });
 
@@ -160,7 +173,8 @@ export async function runSelfTest() {
   const failures = results.filter((r) => r.startsWith('FAIL')).length;
   const total = results.length;
   results.push('');
-  results.push(failures === 0 ? `All ${total} checks passed.` : `${failures} of ${total} CHECKS FAILED`);
+  results.push(failures === 0 ? `All ${total} checks passed — everything is working.`
+    : `${failures} of ${total} CHECKS FAILED`);
   return results.join('\n');
 }
 
