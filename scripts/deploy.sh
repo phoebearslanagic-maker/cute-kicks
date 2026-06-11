@@ -10,7 +10,7 @@ cd "$(dirname "$0")/.."
 MSG="${1:?Usage: scripts/deploy.sh \"Commit message\"}"
 
 STAMP=$(date +%s)
-sed -i '' -E "s/\?v=[0-9]+/?v=$STAMP/g" index.html js/*.js
+sed -i '' -E "s/\?v=[0-9]+/?v=$STAMP/g" index.html sw.js js/*.js
 
 git add -A
 git commit -m "$MSG

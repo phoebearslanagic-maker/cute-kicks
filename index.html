@@ -4,8 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#b3506d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Cute Kicks">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
   <title>Cute Kicks</title>
-  <link rel="stylesheet" href="css/app.css?v=1781199129">
+  <link rel="stylesheet" href="css/app.css?v=1781201788">
 </head>
 <body>
   <main class="app">
@@ -115,9 +121,26 @@
       </div>
 
       <div class="card">
+        <h2>Tags</h2>
+        <p class="muted small">Tags are the chips you can tap after logging — what was
+        happening at the time. Archive ones you don't use; archived tags keep their
+        place in your history.</p>
+        <div id="tag-list"></div>
+        <div class="row">
+          <input type="text" id="new-tag" placeholder="new tag" autocapitalize="none">
+          <button id="add-tag" type="button">Add</button>
+        </div>
+        <div id="archived-wrap" hidden>
+          <p class="subhead">Archived</p>
+          <div id="archived-list"></div>
+        </div>
+      </div>
+
+      <div class="card">
         <h2>Back up &amp; restore</h2>
         <p class="muted small">Your data lives only on this device, so saving a backup
         now and then is the safe way to keep it.</p>
+        <p id="backup-reminder" class="muted small" hidden></p>
         <div class="row">
           <button id="export-json" class="primary" type="button">Save a backup</button>
           <button id="export-csv" type="button">Spreadsheet copy (CSV)</button>
@@ -166,6 +189,6 @@
       <span class="ticon" aria-hidden="true">⚙️</span>Settings</button>
   </nav>
 
-  <script type="module" src="js/app.js?v=1781199129"></script>
+  <script type="module" src="js/app.js?v=1781201788"></script>
 </body>
 </html>

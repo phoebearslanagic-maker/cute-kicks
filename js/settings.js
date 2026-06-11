@@ -1,11 +1,11 @@
-// Settings screen — interim version for build step 2. Due date, backup &
-// restore, health check, delete-all. Waking hours, tag management and the
-// episode-gap control arrive with the Patterns work.
+// Settings screen: due date, rhythm (waking hours, episode gap), tags,
+// backup & restore with a gentle fortnightly reminder, health check,
+// delete-all, about.
 
-import * as store from './store.js?v=1781199129';
-import * as exporter from './export.js?v=1781199129';
-import * as time from './time.js?v=1781199129';
-import { refreshLog } from './log.js?v=1781199129';
+import * as store from './store.js?v=1781201788';
+import * as exporter from './export.js?v=1781201788';
+import * as time from './time.js?v=1781201788';
+import { refreshLog } from './log.js?v=1781201788';
 
 const $ = (id) => document.getElementById(id);
 
@@ -14,6 +14,131 @@ const IO_MESSAGES = {
   downloaded: 'Backup downloaded.',
   cancelled: 'Cancelled — nothing was saved.',
 };
+
+// Gentle reminder when there is data but no backup in roughly a fortnight.
+async function updateBackupReminder() {
+  const [s, n] = await Promise.all([store.getSettings(), store.countEvents()]);
+  const el = $('backup-reminder');
+  if (n === 0) {
+    el.hidden = true;
+    return;
+  }
+  if (!s.lastExportAt) {
+    el.textContent = 'No backup has been saved from this device yet.';
+    el.hidden = false;
+    return;
+  }
+  const days = Math.floor((Date.now() - time.epoch(s.lastExportAt)) / 86400000);
+  el.textContent = `Last backup: ${days} days ago.`;
+  el.hidden = days < 14;
+}
+
+async function recordExport(status) {
+  if (status === 'shared' || status === 'downloaded') {
+    await store.saveSettings({ lastExportAt: time.nowLocalISO() });
+  }
+  updateBackupReminder();
+  return status;
+}
+
+// ---- Tags: add / rename / archive / restore ------------------------------
+
+const normaliseTag = (raw) => raw.trim().toLowerCase().replace(/\s+/g, '_').slice(0, 30);
+const tagLabel = (tag) => tag.replace(/_/g, ' ');
+
+function tagRow(tag, buttons) {
+  const row = document.createElement('div');
+  row.className = 'tag-row';
+  const name = document.createElement('span');
+  name.className = 'tag-name';
+  name.textContent = tagLabel(tag);
+  row.appendChild(name);
+  for (const [label, onClick] of buttons) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'compact';
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    row.appendChild(b);
+  }
+  return row;
+}
+
+async function renderTags() {
+  const s = await store.getSettings();
+  const list = $('tag-list');
+  list.textContent = '';
+  for (const tag of s.tags) {
+    list.appendChild(tagRow(tag, [
+      ['Rename', () => renameTag(tag)],
+      ['Archive', () => archiveTag(tag)],
+    ]));
+  }
+  const archived = $('archived-list');
+  archived.textContent = '';
+  $('archived-wrap').hidden = s.archivedTags.length === 0;
+  for (const tag of s.archivedTags) {
+    archived.appendChild(tagRow(tag, [['Restore', () => restoreTag(tag)]]));
+  }
+}
+
+async function addTag() {
+  const tag = normaliseTag($('new-tag').value);
+  if (!tag) return;
+  const s = await store.getSettings();
+  if (s.tags.includes(tag) || s.archivedTags.includes(tag)) {
+    alert('That tag already exists.');
+    return;
+  }
+  await store.saveSettings({ tags: [...s.tags, tag] });
+  $('new-tag').value = '';
+  renderTags();
+}
+
+async function renameTag(oldTag) {
+  const raw = prompt(`Rename "${tagLabel(oldTag)}" to:`, tagLabel(oldTag));
+  if (raw === null) return;
+  const newTag = normaliseTag(raw);
+  if (!newTag || newTag === oldTag) return;
+  const s = await store.getSettings();
+  if (s.tags.includes(newTag) || s.archivedTags.includes(newTag)) {
+    alert('That tag already exists.');
+    return;
+  }
+  await store.saveSettings({ tags: s.tags.map((t) => (t === oldTag ? newTag : t)) });
+  // A rename is the same tag with a better label, so history follows it.
+  const events = await store.getEvents();
+  for (const e of events) {
+    if ((e.tags || []).includes(oldTag)) {
+      await store.updateEvent(e.id, { tags: e.tags.map((t) => (t === oldTag ? newTag : t)) });
+    }
+  }
+  renderTags();
+}
+
+async function archiveTag(tag) {
+  const s = await store.getSettings();
+  await store.saveSettings({
+    tags: s.tags.filter((t) => t !== tag),
+    archivedTags: [...s.archivedTags, tag],
+  });
+  renderTags();
+}
+
+async function restoreTag(tag) {
+  const s = await store.getSettings();
+  await store.saveSettings({
+    tags: [...s.tags, tag],
+    archivedTags: s.archivedTags.filter((t) => t !== tag),
+  });
+  renderTags();
+}
+
+// Called when the Settings tab is opened.
+export function refreshSettings() {
+  renderTags();
+  updateBackupReminder();
+}
 
 export function initSettings() {
   store.getSettings().then((s) => {
@@ -52,7 +177,7 @@ export function initSettings() {
 
   $('export-json').addEventListener('click', async () => {
     try {
-      $('io-out').textContent = IO_MESSAGES[await exporter.exportJSON()];
+      $('io-out').textContent = IO_MESSAGES[await recordExport(await exporter.exportJSON())];
     } catch (err) {
       $('io-out').textContent = 'Backup failed: ' + err.message;
     }
@@ -60,10 +185,15 @@ export function initSettings() {
 
   $('export-csv').addEventListener('click', async () => {
     try {
-      $('io-out').textContent = IO_MESSAGES[await exporter.exportCSV()];
+      $('io-out').textContent = IO_MESSAGES[await recordExport(await exporter.exportCSV())];
     } catch (err) {
       $('io-out').textContent = 'Backup failed: ' + err.message;
     }
+  });
+
+  $('add-tag').addEventListener('click', addTag);
+  $('new-tag').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addTag();
   });
 
   $('import-btn').addEventListener('click', () => $('import-file').click());
@@ -83,10 +213,14 @@ export function initSettings() {
       $('io-out').textContent = `Restored ${result.events} entries from the backup.`;
       const s = await store.getSettings();
       $('set-duedate').value = s.dueDate || '';
+      $('set-wake-start').value = s.wakingHours.start;
+      $('set-wake-end').value = s.wakingHours.end;
+      $('set-gap').value = s.episodeGapMinutes;
     } catch (err) {
       $('io-out').textContent = 'Restore failed: ' + err.message;
     }
     refreshLog();
+    refreshSettings();
   });
 
   $('clear-all').addEventListener('click', async () => {
@@ -96,6 +230,7 @@ export function initSettings() {
     $('io-out').textContent = 'All data deleted.';
     $('set-duedate').value = '';
     refreshLog();
+    refreshSettings();
   });
 
   $('selftest').addEventListener('click', async () => {
@@ -106,6 +241,8 @@ export function initSettings() {
       $('selftest-out').textContent = 'Health check crashed: ' + err.message;
     }
   });
+
+  refreshSettings();
 }
 
 // End-to-end check of the data layer on this device.

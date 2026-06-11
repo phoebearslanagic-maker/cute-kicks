@@ -3,8 +3,8 @@
 // Raw events are the source of truth and are stored as logged; everything
 // else (episodes, daily totals, patterns) is derived at render time.
 
-import { idb } from './db.js?v=1781199129';
-import { nowLocalISO, epoch } from './time.js?v=1781199129';
+import { idb } from './db.js?v=1781201788';
+import { nowLocalISO, epoch } from './time.js?v=1781201788';
 
 export const SCHEMA_VERSION = 'kick-tracker/1.0';
 

@@ -387,7 +387,8 @@ button.danger {
 
 input[type="date"],
 input[type="time"],
-input[type="number"] {
+input[type="number"],
+input[type="text"] {
   font: inherit;
   font-variant-numeric: tabular-nums;
   color: var(--text);
@@ -400,6 +401,33 @@ input[type="number"] {
 
 input[type="number"] {
   width: 110px;
+}
+
+input[type="text"] {
+  flex: 1;
+  min-width: 120px;
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.tag-row .tag-name {
+  flex: 1;
+}
+
+button.compact {
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.subhead {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 14px 0 4px;
 }
 
 .row {
