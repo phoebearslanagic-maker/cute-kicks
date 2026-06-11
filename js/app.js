@@ -1,12 +1,12 @@
 // App shell: bottom tab bar navigation between screens.
 
-import * as store from './store.js';
-import * as exporter from './export.js';
-import * as time from './time.js';
-import * as episodes from './episodes.js';
-import { initLog, refreshLog } from './log.js';
-import { renderHistory } from './history.js';
-import { initSettings, runSelfTest } from './settings.js';
+import * as store from './store.js?v=1781198427';
+import * as exporter from './export.js?v=1781198427';
+import * as time from './time.js?v=1781198427';
+import * as episodes from './episodes.js?v=1781198427';
+import { initLog, refreshLog } from './log.js?v=1781198427';
+import { renderHistory } from './history.js?v=1781198427';
+import { initSettings, runSelfTest } from './settings.js?v=1781198427';
 
 function showScreen(name) {
   for (const screen of document.querySelectorAll('.screen')) {

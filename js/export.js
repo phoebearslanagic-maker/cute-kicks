@@ -4,8 +4,8 @@
 
 import {
   SCHEMA_VERSION, DEFAULT_SETTINGS, getSettings, getEvents, replaceAll,
-} from './store.js';
-import { nowLocalISO, isValidISO, todayLocalDate } from './time.js';
+} from './store.js?v=1781198427';
+import { nowLocalISO, isValidISO, todayLocalDate } from './time.js?v=1781198427';
 
 export const APP_VERSION = '0.1.0';
 

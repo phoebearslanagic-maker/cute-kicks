@@ -2,10 +2,10 @@
 // restore, health check, delete-all. Waking hours, tag management and the
 // episode-gap control arrive with the Patterns work.
 
-import * as store from './store.js';
-import * as exporter from './export.js';
-import * as time from './time.js';
-import { refreshLog } from './log.js';
+import * as store from './store.js?v=1781198427';
+import * as exporter from './export.js?v=1781198427';
+import * as time from './time.js?v=1781198427';
+import { refreshLog } from './log.js?v=1781198427';
 
 const $ = (id) => document.getElementById(id);
 

@@ -3,10 +3,10 @@
 // Tapping an entry opens an inline editor for time, count and tags, with
 // delete (confirmed).
 
-import * as store from './store.js';
-import { localParts, fmtHM, todayLocalDate, gestationalAge } from './time.js';
-import { clusterEpisodes } from './episodes.js';
-import { refreshLog } from './log.js';
+import * as store from './store.js?v=1781198427';
+import { localParts, fmtHM, todayLocalDate, gestationalAge } from './time.js?v=1781198427';
+import { clusterEpisodes } from './episodes.js?v=1781198427';
+import { refreshLog } from './log.js?v=1781198427';
 
 const $ = (id) => document.getElementById(id);
 const pad2 = (n) => String(n).padStart(2, '0');

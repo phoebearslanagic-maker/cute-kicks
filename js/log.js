@@ -2,9 +2,9 @@
 // count (1 per ~400ms) and release commits the total as a single event.
 // After each log: tag chips and an Undo affordance for ~10 seconds.
 
-import * as store from './store.js';
-import { fmtHM, localParts, todayLocalDate, gestationalAge } from './time.js';
-import { clusterEpisodes } from './episodes.js';
+import * as store from './store.js?v=1781198427';
+import { fmtHM, localParts, todayLocalDate, gestationalAge } from './time.js?v=1781198427';
+import { clusterEpisodes } from './episodes.js?v=1781198427';
 
 const $ = (id) => document.getElementById(id);
 const AFFORDANCE_MS = 10000;
