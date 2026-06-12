@@ -30,5 +30,5 @@ Local development: `python3 -m http.server 8000` in this folder, then open
 3. [x] History
 4. [x] Episode derivation + Patterns views
 5. [x] Service worker, manifest, icons, install polish
-6. [ ] Acceptance checklist pass
-7. [ ] Final deploy + home-screen install
+6. [x] Acceptance checklist pass
+7. [x] Final deploy + home-screen install

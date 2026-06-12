@@ -4,10 +4,10 @@
 
 import {
   SCHEMA_VERSION, DEFAULT_SETTINGS, getSettings, getEvents, replaceAll,
-} from './store.js?v=1781203200';
-import { nowLocalISO, isValidISO, todayLocalDate } from './time.js?v=1781203200';
+} from './store.js?v=1781256394';
+import { nowLocalISO, isValidISO, todayLocalDate } from './time.js?v=1781256394';
 
-export const APP_VERSION = '0.1.0';
+export const APP_VERSION = '1.0.0';
 
 const ANALYSIS_NOTES =
   "Raw fetal movement logs from a single user. Each event is a tap (count=1) " +

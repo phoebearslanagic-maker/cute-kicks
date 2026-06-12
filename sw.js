@@ -3,7 +3,7 @@
 // byte-different; the browser installs the new worker, which caches the new
 // assets and takes over — the page reloads itself once to pick it up.
 
-const STAMP = '?v=1781203200'; // rewritten by scripts/deploy.sh
+const STAMP = '?v=1781256394'; // rewritten by scripts/deploy.sh
 const CACHE = 'cute-kicks-' + STAMP.slice(3);
 
 const ASSETS = [

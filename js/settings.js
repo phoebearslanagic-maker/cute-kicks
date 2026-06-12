@@ -2,10 +2,10 @@
 // backup & restore with a gentle fortnightly reminder, health check,
 // delete-all, about.
 
-import * as store from './store.js?v=1781203200';
-import * as exporter from './export.js?v=1781203200';
-import * as time from './time.js?v=1781203200';
-import { refreshLog } from './log.js?v=1781203200';
+import * as store from './store.js?v=1781256394';
+import * as exporter from './export.js?v=1781256394';
+import * as time from './time.js?v=1781256394';
+import { refreshLog } from './log.js?v=1781256394';
 
 const $ = (id) => document.getElementById(id);
 
